@@ -1,0 +1,35 @@
+Extra Lives: self-explanatory, create LifeCounter
+
+Machinegun Laser: Firing rate 0.05 
+STATUS: Done! 10th Sept 15
+
+Triple Laser: Spawn/Instantiate three lasers
+STATUS:
+
+Assist Bots: Spawn/Instantiate 1/2 bots, extend boundary detection to the bots, bots have own lasers
+STATUS: Done! 18th Sept 15
+
+Charge Blast: Create when button is held down event, shoot when button is released
+STATUS:
+
+Time bomb: Shoot a timed bomb that creates a time bubble. Type 1 will slow down everything inside it for 5 seconds
+           Type 2 only slows down enemies and enemy lasers
+STATUS:
+
+
+Force Field: Endures 1+ hit
+STATUS:
+
+
+Enemies
+Ricochet enemies: They power up for 2 seconds, then charge. If they hit the boundaries, then they bounce around the screen 
+STATUS:
+
+Shield/Armored enemies: Require 2+ hits to destroy
+STATUS:
+
+Explosive enemies: Destroy them and they fire off debris that damages enemy and foe.
+STATUS:
+
+Mirror/Counter enemies: Stores one laser, and fires it back. Hit twice quickly in succession to defeat
+STATUS:
