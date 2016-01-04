@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour {
 	public float tilt;
 	public Boundary boundary;
 
-	public GameObject shot, shot2, shot3;
-	public Transform shotSpawn, shotSpawnLeft, shotSpawnRight;
+	public GameObject shot;
+	public Transform shotSpawn;
 	public float fireRate;
 
 	public bool hasMiniPlayers = false;
@@ -52,9 +52,7 @@ public class PlayerController : MonoBehaviour {
 			//Debug.Log ("PlayerController boundary xMin: " + boundary.xMin + " xMax: " + boundary.xMax);			
 						nextFire = Time.time + fireRate;
 						Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
-                        Instantiate (shot2, shotSpawnLeft.position, shotSpawnLeft.rotation);
-                        Instantiate (shot3, shotSpawnRight.position, shotSpawnRight.rotation);
-						GetComponent<AudioSource>().Play();
+						audio.Play();
 			if(hasMachineGun)
 			{
 				machineGunRounds--;
@@ -80,15 +78,15 @@ public class PlayerController : MonoBehaviour {
          vector3 = x, y, z axes
 		 */
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-		GetComponent<Rigidbody>().velocity = movement * speed;  //uses a vector 3 value, this tells us the direction we're going and how fast as a vector and its magnitude
-		GetComponent<Rigidbody>().position = new Vector3 
+		rigidbody.velocity = movement * speed;  //uses a vector 3 value, this tells us the direction we're going and how fast as a vector and its magnitude
+		rigidbody.position = new Vector3 
 			(
-				Mathf.Clamp (GetComponent<Rigidbody>().position.x, boundary.xMin, boundary.xMax), 
+				Mathf.Clamp (rigidbody.position.x, boundary.xMin, boundary.xMax), 
 				0.0f, 
-				Mathf.Clamp (GetComponent<Rigidbody>().position.z, boundary.zMin, boundary.zMax)
+				Mathf.Clamp (rigidbody.position.z, boundary.zMin, boundary.zMax)
 			);
 
-		GetComponent<Rigidbody>().rotation = Quaternion.Euler (0.0f, 0.0f, GetComponent<Rigidbody>().velocity.x * -tilt);
+		rigidbody.rotation = Quaternion.Euler (0.0f, 0.0f, rigidbody.velocity.x * -tilt);
 	//	Debug.Log("M1: " + mini1.transform.parent.name + "  M2: " + mini2.transform.parent.name);
 	}
 
