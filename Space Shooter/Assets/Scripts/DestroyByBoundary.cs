@@ -3,9 +3,13 @@ using System.Collections;
 
 public class DestroyByBoundary : MonoBehaviour {
 
+   
+
+
 	void OnTriggerExit(Collider other )
 	{
-		Destroy (other.gameObject);
+       // if(other.tag != "Beam")
+        Destroy (other.gameObject);
 	}
 	
 

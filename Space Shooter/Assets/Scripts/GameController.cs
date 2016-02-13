@@ -55,7 +55,12 @@ public class GameController : MonoBehaviour {
 				GameObject hazard = hazards [Random.Range (0, hazards.Length)];  //choose a random hazard from the ones specified in the inspector
 				Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z); //create a random spawning position between spawnValues
 				Quaternion spawnRotation = Quaternion.identity;
-				Instantiate (hazard, spawnPosition, spawnRotation); //spawn hazard a location determined by spawnPosition, with a default rotation
+                if (hazard.name == "Red Enemy Ship" && hazardCount < 20)
+               { }
+               else
+               {
+                    Instantiate(hazard, spawnPosition, spawnRotation); //spawn hazard a location determined by spawnPosition, with a default rotation
+               }
 				yield return new WaitForSeconds(spawnWait); //wait spawnWait seconds before calling another hazard
 			}
 
