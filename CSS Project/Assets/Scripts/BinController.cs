@@ -30,6 +30,7 @@ public class BinController : MonoBehaviour
     public GameObject penalty;
 
     public GameController gamecontroller;
+    private CollectionBoost collectBoost;
     
 
     // Use this for initialization
@@ -48,6 +49,7 @@ public class BinController : MonoBehaviour
         score = 0;
         scoreText.text = "Score: " + score;
         gameObject.tag = "Green";
+        collectBoost = GetComponent<CollectionBoost>();
 	}
 
     /*
@@ -103,7 +105,7 @@ public class BinController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        int points = other.GetComponent<Mover>().points;
+        int points = other.GetComponent<Mover>().finalPoints;
         //Add to score if bin is right type, subtract otherwise
         if (gameObject.tag.Equals(other.tag) == false)
         {
@@ -111,34 +113,44 @@ public class BinController : MonoBehaviour
             scoreText.text = "Score: " + score;
             penalty.SetActive(true);
             penalty.GetComponent<Text>().text = "Sorting Penalty: -" + (points + (points/2));
+
+           /*If the wrong type of garbage is collected during this streak, then the streak is lost.*/
+           collectBoost.hasBoost = false;
+           collectBoost.boostCounter = 0;
+           collectBoost.bonusCounter = 0;
+           collectBoost.collectionScore.text = "";
         }
 
-        else
-        {
-            penalty.SetActive(false);
-            score += other.GetComponent<Mover>().points;
-            scoreText.text = "Score: " + score;
+       else
+       {
+           penalty.SetActive(false);
+           
+           score += (points + collectBoost.countForBoost(other.GetComponent<Mover>()));
+           scoreText.text = "Score: " + score;
 
-            if (SceneManager.GetActiveScene().name.Equals("SurvivalMode") == false)
-            {
-                if (score >= gamecontroller.goalScore)
-                {
-                    gamecontroller.levelComplete = true;
-                }
-            }
-        }
-        Destroy(other.gameObject);
-    }
+           //if (SceneManager.GetActiveScene().name.Equals("SurvivalMode") == false)
+           //{
+           if (score >= LevelController.goalScore[LevelController.level])
+           {
+                gamecontroller.levelComplete = true;
+                collectBoost.collectionScore.text = "";
+           }
+           //}
+       }
+       Destroy(other.gameObject);
+   }
 
-  /*  void OnMouseUp()
-    {
-        sprite.sprite = bin;
-        Debug.Log("Sprite changed!");
-    }*/
+ /*  void OnMouseUp()
+   {
+       sprite.sprite = bin;
+       Debug.Log("Sprite changed!");
+   }*/
+
+
 
     void SwapBins()
     {
-        if (Input.GetButtonUp("Fire1") && Time.time > nextFire && !doNotTrigger.Contains(EventSystem.current.currentSelectedGameObject))
+        if (Input.GetButtonDown("Fire1") && Time.time > nextFire && !doNotTrigger.Contains(EventSystem.current.currentSelectedGameObject))
         {
             //Debug.Log(EventSystem.current.currentSelectedGameObject);
             nextFire = Time.time + fireRate;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class DestroyByBoundary : MonoBehaviour {
@@ -9,10 +10,14 @@ public class DestroyByBoundary : MonoBehaviour {
     public Image Fill;  // assign in the editor the "Fill"
     public Color MaxTrashColor = Color.red;
     public Color MinTrashColor = Color.green;
+    public CollectionBoost collectBoost;
     // Use this for initialization
     void Start () {
         //   slider.onValueChanged.AddListener(IncreaseDirtiness);
         maxTrash = (int)slider.maxValue;
+        slider.value += LevelController.addToTrashLevel;
+        Fill.color = Color.Lerp(MinTrashColor, MaxTrashColor, (float)slider.value / maxTrash);
+        Debug.Log("Level: " + LevelController.level + " Trash Level: " + LevelController.addToTrashLevel);
     }
 	
 	// Update is called once per frame
@@ -23,6 +28,14 @@ public class DestroyByBoundary : MonoBehaviour {
     {
         Destroy(other.gameObject);
         IncreaseTrash(5f);
+
+        if(SceneManager.GetActiveScene().name.Equals("SurvivalMode"))
+        {
+            collectBoost.hasBoost = false;
+            collectBoost.boostCounter = 0;
+            collectBoost.bonusCounter = 0;
+            collectBoost.collectionScore.text = "";
+        }
     }
 
     void IncreaseTrash(float value)
@@ -43,6 +56,9 @@ public class DestroyByBoundary : MonoBehaviour {
         }
     }
 
-
+    void HitFloorSound()
+    {
+        //insert Audio for trash hitting the floor here
+    }
    
 }

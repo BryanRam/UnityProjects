@@ -50,6 +50,10 @@ public class UIManager : MonoBehaviour {
     {
         //Application.LoadLevel(Application.loadedLevel);
         SceneManager.LoadScene(SceneManager.GetSceneAt(0).buildIndex);
+        if (LevelController.level > 3)
+        {
+            LevelController.addToTrashLevel -= 10f;
+        }
        // gamecontroller.ReloadScene();
     }
 
@@ -95,6 +99,10 @@ public class UIManager : MonoBehaviour {
         {
             PlayerPrefs.SetInt("Goal Score", 500);
             PlayerPrefs.SetInt("Player Score", 0);
+            PlayerPrefs.SetFloat("Time", 110);
+            LevelController.goalScore.Clear();
+            LevelController.level = 1;
+            LevelController.addToTrashLevel = 0f;
         }
     }
 
